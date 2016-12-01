@@ -18,10 +18,11 @@ namespace Autotask.Models
 
         public TaskNodeMode Mode { get; set; }
 
+        /// <summary>
+        /// 是否必须
+        /// </summary>
         public bool IsRequired { get; set; } = true;
-
-        public ITaskNode NextNode { get; set; }
-
+        
         #endregion
 
         #region 构造方法
@@ -55,8 +56,7 @@ namespace Autotask.Models
         /// 执行
         /// </summary>
         /// <param name="browser"></param>
-        /// <returns></returns>
-        public virtual bool Run(WebBrowser browser, Action<ITaskNode, bool> callback = null)
+        public virtual bool Run(WebBrowser browser, Action<ITaskNode> onRunning = null, Action<ITaskNode, bool> onRunned = null)
         {
             return true;
         }

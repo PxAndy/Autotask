@@ -18,21 +18,28 @@ namespace Autotask.Models
 
         }
 
-        public override bool Run(WebBrowser browser, Action<ITaskNode, bool> callback = null)
+        public override bool Run(WebBrowser browser, Action<ITaskNode> onRunning = null, Action<ITaskNode, bool> onRunned = null)
         {
+            onRunning?.Invoke(this);
+
+            var result = true;
+
             if (!CanRun(browser))
             {
-                callback?.Invoke(this, false);
-                return false;
+                result = false;
+            }
+            else
+            {
+                var el = GetElement(browser);
+
+                el.InvokeMember("click");
+
+                result = true;
             }
 
-            var el = GetElement(browser);
-
-            el.InvokeMember("click");
-
-            callback?.Invoke(this, true);
-
-            return true;
+            onRunned?.Invoke(this, result);
+            
+            return result;
         }
 
         public override string ToString()

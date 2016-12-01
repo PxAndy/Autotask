@@ -35,7 +35,10 @@ namespace Autotask
                 Task.Factory.StartNew(() => {
                     SpinWait.SpinUntil(() => false, duration);
 
-                    form.Invoke(new Action(() => { form.Close(); }));
+                    if (!form.IsDisposed)
+                    {
+                        form.Invoke(new Action(() => { form.Close(); }));
+                    }
                 });
             }
         }

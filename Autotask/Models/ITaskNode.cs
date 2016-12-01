@@ -14,9 +14,7 @@ namespace Autotask.Models
         TaskNodeMode Mode { get; set; }
 
         bool IsRequired { get; set; }
-
-        ITaskNode NextNode { get; set; }
-
+        
         #endregion
 
         #region 公共方法
@@ -32,8 +30,7 @@ namespace Autotask.Models
         /// 执行
         /// </summary>
         /// <param name="browser"></param>
-        /// <returns></returns>
-        bool Run(WebBrowser browser, Action<ITaskNode, bool> callback = null);
+        bool Run(WebBrowser browser, Action<ITaskNode> onRunning = null, Action<ITaskNode, bool> onRunned = null);
 
         #endregion
     }

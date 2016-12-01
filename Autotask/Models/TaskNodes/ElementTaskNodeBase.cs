@@ -23,7 +23,7 @@ namespace Autotask.Models
 
         public override bool CanRun(WebBrowser browser)
         {
-            SpinWait.SpinUntil(() => (bool)browser.Invoke(new Func<bool>(() => browser.Document != null && browser.Document.Body != null)), 10000);
+            SpinWait.SpinUntil(() => !browser.IsDisposed && (bool)browser.Invoke(new Func<bool>(() => browser.Document != null && browser.Document.Body != null)), 10000);
 
             var result = GetElement(browser) != null;
 
@@ -32,36 +32,44 @@ namespace Autotask.Models
 
         protected HtmlElement GetElement(WebBrowser browser)
         {
-            return (HtmlElement)browser.Invoke(new Func<HtmlElement>(() => {
-                var doc = browser.Document;
-                if (doc == null)
-                {
-                    return null;
-                }
-
-                if (Element.Id.HasValue())
-                {
-                    return doc.GetElementById(Element.Id);
-                }
-                if (Element.Name.HasValue())
-                {
-                    return doc.GetElementsByTagName(Element.TagName).OfType<HtmlElement>().FirstOrDefault(el => el.Name == Element.Name);
-                }
-                if (Element.Class.HasValue())
-                {
-                    return doc.GetElementsByTagName(Element.TagName).OfType<HtmlElement>().FirstOrDefault(el => el.GetAttribute("classname").HasValue() && (el.GetAttribute("classname") == Element.Class || el.GetAttribute("classname").Split(' ').Any(c => c == Element.Class)));
-                }
-                if (Element.Type.HasValue())
-                {
-                    return doc.GetElementsByTagName(Element.TagName).OfType<HtmlElement>().FirstOrDefault(el => el.GetAttribute("type") == Element.Type);
-                }
-                if (Element.Content.HasValue())
-                {
-                    return doc.GetElementsByTagName(Element.TagName).OfType<HtmlElement>().FirstOrDefault(el => el.InnerText == Element.Content);
-                }
-
+            if (browser.IsDisposed)
+            {
                 return null;
-            }));
+            }
+            else
+            {
+                return (HtmlElement)browser.Invoke(new Func<HtmlElement>(() =>
+                {
+                    var doc = browser.Document;
+                    if (doc == null)
+                    {
+                        return null;
+                    }
+
+                    if (Element.Id.HasValue())
+                    {
+                        return doc.GetElementById(Element.Id);
+                    }
+                    if (Element.Name.HasValue())
+                    {
+                        return doc.GetElementsByTagName(Element.TagName).OfType<HtmlElement>().FirstOrDefault(el => el.Name == Element.Name);
+                    }
+                    if (Element.Class.HasValue())
+                    {
+                        return doc.GetElementsByTagName(Element.TagName).OfType<HtmlElement>().FirstOrDefault(el => el.GetAttribute("classname").HasValue() && (el.GetAttribute("classname") == Element.Class || el.GetAttribute("classname").Split(' ').Any(c => c == Element.Class)));
+                    }
+                    if (Element.Type.HasValue())
+                    {
+                        return doc.GetElementsByTagName(Element.TagName).OfType<HtmlElement>().FirstOrDefault(el => el.GetAttribute("type") == Element.Type);
+                    }
+                    if (Element.Content.HasValue())
+                    {
+                        return doc.GetElementsByTagName(Element.TagName).OfType<HtmlElement>().FirstOrDefault(el => el.InnerText == Element.Content);
+                    }
+
+                    return null;
+                }));
+            }
         }
     }
 }

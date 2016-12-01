@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Autotask.Models
 {
@@ -44,11 +45,41 @@ namespace Autotask.Models
 
         public List<ITaskNode> TaskNodes { get; set; }
 
+        public ITaskNode FirstNode { get { return TaskNodes.HasValue() ? TaskNodes.First() : null; } }
+
+        public ITaskNode LastNode { get { return TaskNodes.HasValue() ? TaskNodes.Last() : null; } }
+
         #endregion
+
+        #region 公共方法
+
+        public bool Run(WebBrowser browser, Action<ITaskNode> onRunning = null, Action<ITaskNode, bool> onRunned = null)
+        {
+            if (TaskNodes.HasValue())
+            {
+                foreach (var node in TaskNodes)
+                {
+                    var result = node.Run(browser, onRunning, onRunned);
+
+                    if (node.IsRequired && !result)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        #endregion
+        
+        #region 重载方法
 
         public override int GetHashCode()
         {
             return Id.GetHashCode();
         }
+
+        #endregion
     }
 }

@@ -54,73 +54,24 @@ namespace Autotask
 
             Text = taskModel.Name;
 
-            var cancellationTokenSource = new CancellationTokenSource();
-            
-            Task<bool> firstTask = Task.Factory.StartNew(() => 
+            AddLog("开始任务......");
+
+            Task.Factory.StartNew(() => 
             {
-                SpinWait.SpinUntil(() => false, 1000);
-                AddLog("开始任务......");
-
-                return true;
-            });
-            Task<bool> linkedTask = null;
-
-            foreach (var taskNode in taskModel.TaskNodes)
-            {
-                linkedTask = (linkedTask == null ? firstTask : linkedTask).ContinueWith((task, n) => 
-                {
-                    SpinWait.SpinUntil(() => false, 1000);
-
-                    var node = (TaskNode)n;
-
-                    if(!cancellationTokenSource.IsCancellationRequested)
+                var result = _taskModel.Run(webBrowser, node => {
+                    AddLog(node);
+                }, (node, isSuccessful) => {
+                    if (!isSuccessful)
                     {
-                        if (node.CanRun(webBrowser))
-                        {
-                            AddLog(node);
-
-                            var flag = node.Run(webBrowser);
-                            
-                            if (!flag)
-                            {
-                                FailLastLog();
-
-                                _db.Store(new TaskLog() { TaskId = _taskModel.Id, TaskName = _taskModel.Name, IsSuccessful = false, Remark = node.ToString() });
-
-                                if (node.IsRequired)
-                                {
-                                    cancellationTokenSource.Cancel();
-                                }
-                            }
-
-                            return flag;
-                        }
-                        else
-                        {
-                            _db.Store(new TaskLog() { TaskId = _taskModel.Id, TaskName = _taskModel.Name, IsSuccessful = false, Remark = node.ToString() });
-
-                            if (node.IsRequired)
-                            {
-                                cancellationTokenSource.Cancel();
-                            }
-                        }
+                        FailLastLog();
                     }
 
-                    AddLog(node, false);
+                    _db.Store(new TaskLog() { TaskId = _taskModel.Id, TaskName = _taskModel.Name, IsSuccessful = isSuccessful, Remark = node.ToString() });
+                });
 
-                    return false;
-                }, taskNode, cancellationTokenSource.Token);
-            }
-
-            linkedTask.ContinueWith(task => 
-            {
-                if (!cancellationTokenSource.IsCancellationRequested)
+                if(result)
                 {
                     AddLog("完成！");
-
-                    _db.Store(new TaskLog() { TaskId = _taskModel.Id, TaskName = _taskModel.Name, IsSuccessful = true });
-
-                    Invoke(new Action(Close));
                 }
             });
         }
@@ -130,44 +81,12 @@ namespace Autotask
             Invoke(new Action(() =>
             {
                 var item = new ListViewItem(taskNode.ToString());
+                item.Tag = taskNode;
                 listViewLog.Items.Add(item);
 
                 if (!isSuccessfull)
                 {
-                    item.BackColor = Color.Gray;
-
-                    var button = new Button();
-                    button.Text = "重试";
-                    button.Font = new Font("宋体", 9, GraphicsUnit.Point);
-                    listViewLog.Controls.Add(button);
-                    button.Location = new Point(listViewLog.Width - 42, item.Position.Y);
-                    button.Size = new Size(40, 20);
-                    button.Tag = taskNode;
-                    button.Click += (sender, e) =>
-                    {
-                        button.Enabled = false;
-
-                        var node = (ITaskNode)((Button)sender).Tag;
-                        if (node.CanRun(webBrowser))
-                        {
-                            var flag = node.Run(webBrowser);
-
-                            button.Enabled = true;
-
-                            if (!flag)
-                            {
-                                _db.Store(new TaskLog() { TaskId = _taskModel.Id, TaskName = _taskModel.Name, IsSuccessful = false, Remark = node.ToString() });
-                            }
-                            else
-                            {
-                                listViewLog.Controls.Remove(button);
-                                item.BackColor = Color.FromKnownColor(KnownColor.Window);
-                            }
-                        }
-                    };
-                    
-                    //显示窗体
-                    Show();
+                    DoFailLastLog();
                 }
 
                 if (taskNode is ManualTaskNode)
@@ -191,25 +110,73 @@ namespace Autotask
             }));
         }
 
+        private void DoFailLastLog()
+        {
+            var item = listViewLog.Items[listViewLog.Items.Count - 1];
+            item.BackColor = Color.Gray;
+
+            var taskNode = item.Tag as ITaskNode;
+
+            var button = new Button();
+            button.Text = "重试";
+            button.Font = new Font("宋体", 9, GraphicsUnit.Point);
+            listViewLog.Controls.Add(button);
+            button.Location = new Point(listViewLog.Width - 42, item.Position.Y);
+            button.Size = new Size(40, 20);
+            button.Tag = taskNode;
+            button.Click += (sender, e) =>
+            {
+                button.Enabled = false;
+
+                taskNode.Run(webBrowser, node => { }, (node, result) => {
+                    button.Enabled = true;
+
+                    if (!result)
+                    {
+                        _db.Store(new TaskLog() { TaskId = _taskModel.Id, TaskName = _taskModel.Name, IsSuccessful = false, Remark = node.ToString() });
+                    }
+                    else
+                    {
+                        listViewLog.Controls.Remove(button);
+                        item.BackColor = Color.FromKnownColor(KnownColor.Window);
+                    }
+                });
+            };
+
+            //显示窗体
+            Show();
+        }
+
         private void AddLog(string str)
         {
-            Invoke(new Action(() =>
+            if (InvokeRequired)
             {
-                var item = new ListViewItem(str);
+                Invoke(new Action(() =>
+                {
+                    var item = new ListViewItem(str);
 
-                listViewLog.Items.Add(item);
-            }));
+                    listViewLog.Items.Add(item);
+                }));
+            }
+            else
+            {
+                listViewLog.Items.Add(str);
+            }
         }
 
         private void FailLastLog()
         {
-            Invoke(new Action(() =>
+            if (InvokeRequired)
             {
-                listViewLog.Items[listViewLog.Items.Count - 1].BackColor = Color.Gray;
-
-                //显示窗体
-                Show();
-            }));
+                Invoke(new Action(() =>
+                {
+                    DoFailLastLog();
+                }));
+            }
+            else
+            {
+                DoFailLastLog();
+            }
         }
     }
 }

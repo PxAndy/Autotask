@@ -21,9 +21,15 @@ namespace Autotask.Models
 
         public bool IsFinished { get; set; }
         
-        public override bool Run(WebBrowser browser, Action<ITaskNode, bool> callback = null)
+        public override bool Run(WebBrowser browser, Action<ITaskNode> onRunning = null, Action<ITaskNode, bool> onRunned = null)
         {
-            return SpinWait.SpinUntil(() => { return IsFinished; }, -1);
+            onRunning?.Invoke(this);
+
+            SpinWait.SpinUntil(() => { return IsFinished; }, -1);
+
+            onRunned?.Invoke(this, true);
+            
+            return true;
         }
 
         public override string ToString()

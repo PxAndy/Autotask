@@ -19,18 +19,22 @@ namespace Autotask.Models
 
         }
 
-        public override bool Run(WebBrowser browser, Action<ITaskNode, bool> callback = null)
+        public override bool Run(WebBrowser browser, Action<ITaskNode> onRunning = null, Action<ITaskNode, bool> onRunned = null)
         {
+            onRunning?.Invoke(this);
+
             browser.Refresh();
 
             var result = SpinWait.SpinUntil(() =>
             {
-                return (bool)browser.Invoke(new Func<bool>(() =>
+                return !browser.IsDisposed && (bool)browser.Invoke(new Func<bool>(() =>
                 {
                     return browser.Document != null && browser.Document.Body != null && browser.ReadyState > WebBrowserReadyState.Loaded;
                 }));
             }, 10000);
 
+            onRunned?.Invoke(this, result);
+            
             return result;
         }
 

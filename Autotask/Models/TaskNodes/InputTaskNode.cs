@@ -20,25 +20,35 @@ namespace Autotask.Models
             Text = text;
         }
 
-        public override bool Run(WebBrowser browser, Action<ITaskNode, bool> callback = null)
+        public override bool Run(WebBrowser browser, Action<ITaskNode> onRunning = null, Action<ITaskNode, bool> onRunned = null)
         {
+            onRunning?.Invoke(this);
+
+            var result = true;
+
             if (!CanRun(browser))
             {
-                return false;
+                result = false;
             }
-
-            var el = GetElement(browser);
-
-            if (el.TagName == "INPUT")
+            else
             {
-                el.SetAttribute("value", Text);
-            }
-            else if (el.TagName == "TEXTAREA")
-            {
-                el.InnerText = Text;
+                var el = GetElement(browser);
+
+                if (el.TagName == "INPUT")
+                {
+                    el.SetAttribute("value", Text);
+                }
+                else if (el.TagName == "TEXTAREA")
+                {
+                    el.InnerText = Text;
+                }
+
+                result = true;
             }
 
-            return true;
+            onRunned?.Invoke(this, result);
+            
+            return result;
         }
 
         public override string ToString()
