@@ -17,8 +17,6 @@ namespace Autotask
         public FormNode()
         {
             InitializeComponent();
-
-            
         }
 
         public void SetNode(ITaskNode node)
@@ -73,6 +71,15 @@ namespace Autotask
                 Height = 100 + 250;
 
                 InputNodeControl control = new InputNodeControl();
+                tableLayoutPanel1.Controls.Add(control, 0, 0);
+                control.Dock = DockStyle.Fill;
+                control.SetNode(node);
+            }
+            else if (node is WaitTaskNode)
+            {
+                Height = 100 + 30;
+
+                WaitNodeControl control = new WaitNodeControl();
                 tableLayoutPanel1.Controls.Add(control, 0, 0);
                 control.Dock = DockStyle.Fill;
                 control.SetNode(node);

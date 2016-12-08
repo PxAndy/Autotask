@@ -1,6 +1,6 @@
 ﻿namespace Autotask.Controls
 {
-    partial class RedirectNodeControl
+    partial class WaitNodeControl
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBoxUrl = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numericMilliseconds = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMilliseconds)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -39,45 +40,51 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBoxUrl, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.numericMilliseconds, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(416, 28);
-            this.tableLayoutPanel1.TabIndex = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(436, 28);
+            this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // label2
+            // label1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 6);
-            this.label2.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 12);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "URL：";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "毫秒数：";
             // 
-            // textBoxUrl
+            // numericMilliseconds
             // 
-            this.textBoxUrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUrl.Location = new System.Drawing.Point(83, 3);
-            this.textBoxUrl.Name = "textBoxUrl";
-            this.textBoxUrl.Size = new System.Drawing.Size(330, 21);
-            this.textBoxUrl.TabIndex = 4;
-            this.textBoxUrl.Leave += new System.EventHandler(this.textBoxUrl_Leave);
+            this.numericMilliseconds.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numericMilliseconds.Location = new System.Drawing.Point(83, 3);
+            this.numericMilliseconds.Maximum = new decimal(new int[] {
+            3600000,
+            0,
+            0,
+            0});
+            this.numericMilliseconds.Name = "numericMilliseconds";
+            this.numericMilliseconds.Size = new System.Drawing.Size(350, 21);
+            this.numericMilliseconds.TabIndex = 1;
+            this.numericMilliseconds.ValueChanged += new System.EventHandler(this.numericMilliseconds_ValueChanged);
             // 
-            // RedirectNodeControl
+            // WaitNodeControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "RedirectNodeControl";
-            this.Size = new System.Drawing.Size(416, 28);
+            this.Name = "WaitNodeControl";
+            this.Size = new System.Drawing.Size(436, 28);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMilliseconds)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -85,7 +92,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBoxUrl;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown numericMilliseconds;
     }
 }

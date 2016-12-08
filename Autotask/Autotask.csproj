@@ -93,6 +93,12 @@
     <Compile Include="Controls\RedirectNodeControl.Designer.cs">
       <DependentUpon>RedirectNodeControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\WaitNodeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WaitNodeControl.Designer.cs">
+      <DependentUpon>WaitNodeControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DbContext.cs" />
     <Compile Include="Common\EnumExtensions.cs" />
     <Compile Include="FormBrowser.cs">
@@ -147,6 +153,7 @@
     <Compile Include="Models\TaskNodes\FocusTaskNode.cs" />
     <Compile Include="Models\TaskNodes\ClickTaskNode.cs" />
     <Compile Include="Models\TaskNodes\ElementTaskNodeBase.cs" />
+    <Compile Include="Models\TaskNodes\WaitTaskNode.cs" />
     <Compile Include="Models\TaskNodes\ManualTaskNode.cs" />
     <Compile Include="Models\TaskNodes\RedirectTaskNode.cs" />
     <Compile Include="Models\TaskNodes\RefreshTaskNode.cs" />
@@ -171,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\RedirectNodeControl.resx">
       <DependentUpon>RedirectNodeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WaitNodeControl.resx">
+      <DependentUpon>WaitNodeControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormBrowser.resx">
       <DependentUpon>FormBrowser.cs</DependentUpon>

@@ -21,26 +21,31 @@ namespace Autotask.Models
         /// 刷新页面
         /// </summary>
         [Description("刷新")]
-        RefreshPage,
+        RefreshPage = 2,
         /// <summary>
         /// 手动处理
         /// </summary>
         [Description("手动")]
-        Manual,
+        Manual = 3,
         /// <summary>
         /// 点击元素
         /// </summary>
         [Description("点击")]
-        ClickElement,
+        ClickElement = 4,
         /// <summary>
         /// 聚焦元素
         /// </summary>
         [Description("聚焦")]
-        FocusElement,
+        FocusElement = 5,
         /// <summary>
         /// 输入元素
         /// </summary>
         [Description("输入")]
-        InputElement
+        InputElement = 6,
+        /// <summary>
+        /// 等待
+        /// </summary>
+        [Description("等待")]
+        Wait = 7
     }
 }

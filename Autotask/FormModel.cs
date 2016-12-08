@@ -82,6 +82,11 @@ namespace Autotask
                 item.SubItems.Add(input.Element.ToString());
                 item.SubItems.Add(input.Text);
             }
+            if (node is WaitTaskNode)
+            {
+                item.SubItems.Add("");
+                item.SubItems.Add(((WaitTaskNode)node).ToString());
+            }
 
             return item;
         }
@@ -229,6 +234,15 @@ namespace Autotask
                     break;
                 case TaskNodeMode.InputElement:
                     node = new InputTaskNode(new TaskElement("INPUT", type: "text"), "");
+
+                    formNode.SetNode(node);
+                    if (formNode.ShowDialog() != DialogResult.OK)
+                    {
+                        node = null;
+                    }
+                    break;
+                case TaskNodeMode.Wait:
+                    node = new WaitTaskNode();
 
                     formNode.SetNode(node);
                     if (formNode.ShowDialog() != DialogResult.OK)
