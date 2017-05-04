@@ -32,6 +32,7 @@ namespace Autotask.Controls
                     break;
                 }
             }
+            textBoxCss.Text = element.CssSelector;
             textBoxId.Text = element.Id;
             textBoxName.Text = element.Name;
             textBoxClass.Text = element.Class;
@@ -67,6 +68,11 @@ namespace Autotask.Controls
         private void textBoxContent_Leave(object sender, EventArgs e)
         {
             _element.Content = textBoxContent.Text;
+        }
+
+        private void textBoxCss_Leave(object sender, EventArgs e)
+        {
+            _element.CssSelector = textBoxCss.Text;
         }
     }
 }

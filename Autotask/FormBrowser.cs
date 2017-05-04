@@ -28,6 +28,8 @@ namespace Autotask
             var form = new FormBrowser();
             form.Show();
 
+            form.webBrowser.ScriptErrorsSuppressed = false;
+
             form.webBrowser.Navigate(url);
 
             if (duration > -1)

@@ -44,13 +44,14 @@ namespace Autotask
         {
             textBoxUrl.KeyDown += TextBoxUrl_KeyDown;
 
+            webBrowser.ScriptErrorsSuppressed = false;
             webBrowser.Navigating += WebBrowser_Navigating;
             webBrowser.Navigated += WebBrowser_Navigated;
             webBrowser.ProgressChanged += WebBrowser_ProgressChanged;
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
             webBrowser.DocumentTitleChanged += WebBrowser_DocumentTitleChanged;
             webBrowser.NewWindow += WebBrowser_NewWindow;
-
+            
             buttonDone.Click += ButtonDone_Click;
 
             listBoxTaskNodes.ValueMember = "Id";
@@ -133,17 +134,25 @@ namespace Autotask
                 AddTaskNode(new RedirectTaskNode(webBrowser.Url.ToString()));
 
                 _loaded = false;
+
+                if (webBrowser.Document != null && webBrowser.Document.Body != null)
+                {
+                    webBrowser.Document.Body.MouseUp -= Body_MouseUp;
+                    //webBrowser.Document.Body.KeyDown -= Body_KeyDown;
+                }
             }
 
             if (!_loaded && webBrowser.ReadyState == WebBrowserReadyState.Interactive && webBrowser.Document != null && webBrowser.Document.Body != null)
             {
                 _loaded = true;
-                foreach (HtmlElement element in webBrowser.Document.Body.All)
-                {
-                    element.Click += Element_Click;
+                //foreach (HtmlElement element in webBrowser.Document.Body.All)
+                //{
+                //    element.Click += Element_Click;
 
-                    element.KeyPress += Element_KeyPress;
-                }
+                //    element.KeyPress += Element_KeyPress;
+                //}
+                webBrowser.Document.Body.MouseUp += Body_MouseUp;
+                //webBrowser.Document.Body.KeyDown += Body_KeyDown;
                 Debug.WriteLine("绑定元素事件");
             }
         }
@@ -155,13 +164,70 @@ namespace Autotask
             if (!_loaded && webBrowser.ReadyState == WebBrowserReadyState.Complete && webBrowser.Document != null && webBrowser.Document.Body != null)
             {
                 _loaded = true;
-                foreach (HtmlElement element in webBrowser.Document.Body.All)
+                //foreach (HtmlElement element in webBrowser.Document.Body.All)
+                //{
+                //    element.Click += Element_Click;
+
+                //    element.KeyPress += Element_KeyPress;
+                //}
+                webBrowser.Document.Body.MouseUp += Body_MouseUp;
+                //webBrowser.Document.Body.KeyDown += Body_KeyDown;
+
+                Debug.WriteLine("绑定元素事件");
+            }
+        }
+        
+        private void Body_MouseUp(object sender, HtmlElementEventArgs e)
+        {
+            var element = webBrowser.Document.GetElementFromPoint(e.ClientMousePosition);
+
+            if (element != null)
+            {
+                Debug.WriteLine("Click: {0} id={1} name={2} class={3} text={4}", element.TagName, element.Id, element.Name, element.GetAttribute("class"), element.InnerText);
+                Debug.WriteLine("Click: {0}", element.CssPath());
+
+                if (element.TagName == "INPUT" && (element.GetAttribute("type") == "text" || element.GetAttribute("type") == "password"))
                 {
-                    element.Click += Element_Click;
+                    element.KeyPress -= Element_KeyPress;
+
+                    AddTaskNode(new FocusTaskNode(element.ToTaskElement()));
 
                     element.KeyPress += Element_KeyPress;
                 }
-                Debug.WriteLine("绑定元素事件");
+                else
+                {
+                    AddTaskNode(new ClickTaskNode(element.ToTaskElement()));
+                }
+            }
+        }
+        
+        private void Body_KeyDown(object sender, HtmlElementEventArgs e)
+        {
+            var element = webBrowser.Document.GetElementFromPoint(e.ClientMousePosition);
+
+            if (element != null)
+            {
+                Debug.WriteLine("KeyPress: {0} id={1} name={2} class={3} text={4} {5}", element.TagName, element.Id, element.Name, element.GetAttribute("class"), element.InnerText, (char)e.KeyPressedCode);
+
+                if (element.TagName == "INPUT" && (element.GetAttribute("type") == "text" || element.GetAttribute("type") == "password")
+                    || element.TagName == "TEXTAREA")
+                {
+                    var taskElement = element.ToTaskElement();
+                    /*var lastTask = _taskNodes.Last();
+
+                    if (lastTask.Mode == TaskNodeMode.InputElement && ((InputTaskNode)lastTask).Element == taskElement)
+                    {
+                        ((InputTaskNode)lastTask).Text += ((char)e.KeyPressedCode).ToString();
+
+                        RefreshListBox();
+                    }
+                    else
+                    {
+                        AddTaskNode(new InputTaskNode(taskElement, ((char)e.KeyPressedCode).ToString()));
+                    }*/
+
+                    AddTaskNode(new InputTaskNode(taskElement, ((char)e.KeyPressedCode).ToString()));
+                }
             }
         }
 
@@ -172,6 +238,7 @@ namespace Autotask
             var element = sender as HtmlElement;
 
             Debug.WriteLine("Click: {0} id={1} name={2} class={3} text={4}", element.TagName, element.Id, element.Name, element.GetAttribute("class"), element.InnerText);
+            Debug.WriteLine("Click: {0}", element.CssPath());
 
             if (element.TagName == "INPUT" && (element.GetAttribute("type") == "text" || element.GetAttribute("type") == "password"))
             {

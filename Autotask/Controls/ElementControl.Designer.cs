@@ -41,6 +41,8 @@
             this.textBoxContent = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBoxCss = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,18 +51,20 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.textBoxName, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxName, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.comboBoxTag, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.textBoxId, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.textBoxClass, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.textBoxType, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.textBoxContent, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxId, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxClass, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxType, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxContent, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label7, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxCss, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -78,7 +82,7 @@
             // textBoxName
             // 
             this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxName.Location = new System.Drawing.Point(83, 63);
+            this.textBoxName.Location = new System.Drawing.Point(83, 93);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(281, 21);
             this.textBoxName.TabIndex = 4;
@@ -115,7 +119,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 36);
+            this.label2.Location = new System.Drawing.Point(3, 66);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
@@ -125,7 +129,7 @@
             // textBoxId
             // 
             this.textBoxId.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxId.Location = new System.Drawing.Point(83, 33);
+            this.textBoxId.Location = new System.Drawing.Point(83, 63);
             this.textBoxId.Name = "textBoxId";
             this.textBoxId.Size = new System.Drawing.Size(281, 21);
             this.textBoxId.TabIndex = 3;
@@ -134,7 +138,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 66);
+            this.label3.Location = new System.Drawing.Point(3, 96);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
@@ -144,7 +148,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 96);
+            this.label4.Location = new System.Drawing.Point(3, 126);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 12);
@@ -154,7 +158,7 @@
             // textBoxClass
             // 
             this.textBoxClass.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxClass.Location = new System.Drawing.Point(83, 93);
+            this.textBoxClass.Location = new System.Drawing.Point(83, 123);
             this.textBoxClass.Name = "textBoxClass";
             this.textBoxClass.Size = new System.Drawing.Size(281, 21);
             this.textBoxClass.TabIndex = 6;
@@ -163,7 +167,7 @@
             // textBoxType
             // 
             this.textBoxType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxType.Location = new System.Drawing.Point(83, 123);
+            this.textBoxType.Location = new System.Drawing.Point(83, 153);
             this.textBoxType.Name = "textBoxType";
             this.textBoxType.Size = new System.Drawing.Size(281, 21);
             this.textBoxType.TabIndex = 9;
@@ -172,7 +176,7 @@
             // textBoxContent
             // 
             this.textBoxContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxContent.Location = new System.Drawing.Point(83, 153);
+            this.textBoxContent.Location = new System.Drawing.Point(83, 183);
             this.textBoxContent.Name = "textBoxContent";
             this.textBoxContent.Size = new System.Drawing.Size(281, 21);
             this.textBoxContent.TabIndex = 11;
@@ -181,7 +185,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 126);
+            this.label6.Location = new System.Drawing.Point(3, 156);
             this.label6.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(41, 12);
@@ -191,12 +195,31 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 156);
+            this.label5.Location = new System.Drawing.Point(3, 186);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(59, 12);
             this.label5.TabIndex = 8;
             this.label5.Text = "Content：";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 36);
+            this.label7.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 12);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "CSS：";
+            // 
+            // textBoxCss
+            // 
+            this.textBoxCss.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxCss.Location = new System.Drawing.Point(83, 33);
+            this.textBoxCss.Name = "textBoxCss";
+            this.textBoxCss.Size = new System.Drawing.Size(281, 21);
+            this.textBoxCss.TabIndex = 12;
+            this.textBoxCss.Leave += new System.EventHandler(this.textBoxCss_Leave);
             // 
             // ElementControl
             // 
@@ -226,5 +249,7 @@
         private System.Windows.Forms.TextBox textBoxContent;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBoxCss;
     }
 }

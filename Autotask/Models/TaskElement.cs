@@ -10,6 +10,8 @@ namespace Autotask.Models
     {
         public string TagName { get; set; }
 
+        public string CssSelector { get; set; }
+
         public string Id { get; set; }
 
         public string Name { get; set; }
@@ -25,9 +27,10 @@ namespace Autotask.Models
 
         }
 
-        public TaskElement(string tagName, string id = "", string name = "", string @class = "", string content = "", string type = "")
+        public TaskElement(string tagName, string cssSelector = "", string id = "", string name = "", string @class = "", string content = "", string type = "")
         {
             TagName = tagName;
+            CssSelector = cssSelector;
             Id = id;
             Name = name;
             Class = @class;
@@ -37,13 +40,20 @@ namespace Autotask.Models
 
         public override string ToString()
         {
-            return (!Content.IsNullOrEmpty() ? Content : "")
-                + "<" + TagName 
+            if (CssSelector.HasValue())
+            {
+                return CssSelector;
+            }
+            else
+            {
+                return (!Content.IsNullOrEmpty() ? Content : "")
+                + "<" + TagName
                 + (!Id.IsNullOrEmpty() ? "#" + Id : "")
                 + (!Class.IsNullOrEmpty() ? "." + Class : "")
                 + (!Name.IsNullOrEmpty() ? "[Name=" + Name + "]" : "")
                 + (!Type.IsNullOrEmpty() ? "[Type=" + Type + "]" : "")
                 + ">";
+            }
         }
 
         public static bool operator ==(TaskElement element1, TaskElement element2)

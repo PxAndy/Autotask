@@ -46,6 +46,10 @@ namespace Autotask.Models
                         return null;
                     }
 
+                    if (Element.CssSelector.HasValue())
+                    {
+                        return doc.Query(Element.CssSelector).FirstOrDefault();
+                    }
                     if (Element.Id.HasValue())
                     {
                         return doc.GetElementById(Element.Id);
